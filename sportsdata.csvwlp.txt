@@ -1,0 +1,30 @@
+Atlanta Hawks: 0.494
+Boston Celtics: 0.592
+Brooklyn Nets: 0.441
+Charlotte Hornets: 0.438
+Chicago Bulls: 0.51
+Cleveland Cavaliers: 0.464
+Dallas Mavericks: 0.505
+Denver Nuggets: 0.51
+Detroit Pistons: 0.475
+Golden State Warriors: 0.486
+Houston Rockets: 0.514
+Indiana Pacers: 0.51
+Los Angeles Clippers: 0.419
+Los Angeles Lakers: 0.592
+Memphis Grizzlies: 0.435
+Miami Heat: 0.526
+Milwaukee Bucks: 0.527
+Minnesota Timberwolves: 0.402
+New Orleans Pelicans: 0.465
+New York Knicks: 0.485
+Oklahoma City Thunder: 0.533
+Orlando Magic: 0.466
+Philadelphia 76ers: 0.521
+Phoenix Suns: 0.536
+Portland Trail Blazers: 0.53
+Sacramento Kings: 0.456
+San Antonio Spurs: 0.588
+Toronto Raptors: 0.48
+Utah Jazz: 0.543
+Washington Wizards: 0.451
