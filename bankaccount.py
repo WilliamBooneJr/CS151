@@ -62,11 +62,11 @@ class BankAccount:
 def main():
     stdio.writeln("**Creating account for Bob and returning results")
     a = BankAccount(12345, "Bob Ross", 1000)
-    stdio.writeln(a.__str__())
+    stdio.writeln(a)
 
     stdio.writeln("**Creating account for Jane and returning results")
     b = BankAccount(54321, "Jane Doe", 500)
-    stdio.writeln(b.__str__())
+    stdio.writeln(b)
 
     stdio.writeln("**Testing invalid deposit ammount")
     stdio.writeln(a.deposit(-100))
@@ -78,7 +78,7 @@ def main():
     stdio.writeln("**Testing valid deposit and withdrawal amounts")
     stdio.writeln(a.deposit(1000))
     stdio.writeln(a.withdraw(300))
-    stdio.writeln(a.__str__())
+    stdio.writeln(a)
 
     stdio.writeln("**Testing get account holder name method")
     stdio.writeln(a.get_acct_holder())
@@ -92,6 +92,8 @@ def main():
     
     stdio.writeln("**Testing valid transfer method")
     stdio.writeln(a.transfer(b, 100))
+    
+
 
 
 

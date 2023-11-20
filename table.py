@@ -29,25 +29,20 @@ class Table:
     def get_avg_price(self, start_date, end_date, field=None):
         start = datetime.strptime(start_date, '%d-%b-%y')
         end = datetime.strptime(end_date, '%d-%b-%y')
-        relevant_entries = [e for e in self._entries if start <= e.date() <= end]
-
-        if len(relevant_entries) == 0:
-            return "No entries found."
         
-        # If a specific field is provided, calculate its average
-        if field is not None:
-            total = sum(getattr(e, field)() for e in relevant_entries)
-            return {f'average_{field}': total / len(relevant_entries)}
+        yearly_data = {}
+        for entry in self._entries:
+            entry_year = entry.date().year
+            if start.year <= entry_year <= end.year:
+                if entry_year not in yearly_data:
+                    yearly_data[entry_year] = {'open': entry.open(), 'high': entry.high(), 
+                                               'low': entry.low(), 'close': entry.close()}
+                else:
+                    yearly_data[entry_year]['high'] = max(yearly_data[entry_year]['high'], entry.high())
+                    yearly_data[entry_year]['low'] = min(yearly_data[entry_year]['low'], entry.low())
+                    yearly_data[entry_year]['close'] = entry.close()
 
-         
-        # If no specific field is provided, calculate averages for all fields
-        fields = ['open', 'close', 'high', 'low']
-        averages = {}
-        for field in fields:
-            total = sum(getattr(e, field)() for e in relevant_entries)
-            averages[f'average_{field}'] = total / len(relevant_entries)
-
-        return averages
+        return yearly_data
 
 
     

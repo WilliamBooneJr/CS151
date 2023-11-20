@@ -9,7 +9,13 @@
 """
 To run this program input the following in the command line:
 
-python stockprices.py djia.csv startdate(01-Jan-01) enddate(31-Dec-01) optional:field(open,close,high,low)
+python stockprices.py djia.csv startdate(01-Jan-01) enddate(31-Dec-01)
+
+For each year, a candlestick is drawn.
+The color of the candlestick is red if the close price is lower than the 
+open price (indicating a price decrease) and green otherwise (indicating a price increase).
+The line (wick) represents the high and low prices.
+The rectangle (body) represents the open and close prices.
 
 """
 
@@ -27,41 +33,33 @@ def main():
 
     # Create a table object and calculate average prices
     table = Table(file)
-    if field:
-    # If a specific field is given, get only that average
-        averages = table.get_avg_price(start_date, end_date, field)
-    else:
-    # If no field is specified, get all averages
-        averages = table.get_avg_price(start_date, end_date)
+    yearly_data = table.get_avg_price(start_date, end_date)
 
-    # Check if avg_price_data is a dictionary and then proceed
-    if isinstance(averages, dict):
-    # Print the averages
-        for key, value in averages.items():
-            print(f"{key}: {value:.2f}")
-    # ... (rest of the code for drawing the bar chart)
-    else:
-        print(averages)  # In case avg_price_data is not a dictionary 
+    # Prepare the canvas for drawing
+    num_years = len(yearly_data)
+    stddraw.setCanvasSize(800, 400)
+    stddraw.setXscale(0, num_years + 1)
+    max_price = max(max(year['high'] for year in yearly_data.values()), 1) #find the max of the max high prices
+    stddraw.setYscale(0, max_price * 1.2) #set the y scale to 20% more than the max high price
 
-    #draw chart
-    stddraw.setCanvasSize(600, 300)
-    stddraw.setXscale(0, 5)  # Set a scale with enough space for 4 bars
-    stddraw.setYscale(0, max(averages.values()) * 1.2)  # Scale y-axis for max value
+    # Draw the candlesticks for each year
+    for idx, (year, data) in enumerate(yearly_data.items()): #iterate over each index and key-value pair in yearly_data
+        x = idx + 1 #position the candlestick
+        open_price = data['open']
+        close_price = data['close']
+        high_price = data['high']
+        low_price = data['low']
 
-    # Define colors for each bar
-    colors = {"average_open": stddraw.RED, "average_close": stddraw.BLUE,
-              "average_high": stddraw.GREEN, "average_low": stddraw.YELLOW}
+        color = stddraw.RED if close_price < open_price else stddraw.GREEN #set the color of the candlestick
+        stddraw.setPenColor(color)
 
-    # Bar width
-    bar_width = 0.5
+        # Draw the line for high and low prices
+        stddraw.line(x, low_price, x, high_price)
 
-    # Draw the bars for each average price
-    for idx, (key, value) in enumerate(averages.items()):
-        stddraw.setPenColor(colors[key])
-        x = idx + 1  # x-coordinate for the bar
-        stddraw.filledRectangle(x - bar_width / 2, 0, bar_width, value)
-        stddraw.setPenColor(stddraw.BLACK)
-        stddraw.text(x, value / 2, f"{value:.2f}")
+        # Draw the rectangle for open and close prices
+        rect_height = abs(close_price - open_price)
+        rect_y = close_price if close_price < open_price else open_price
+        stddraw.filledRectangle(x - 0.1, rect_y, 0.2, rect_height)
 
     # Display the drawn canvas
     stddraw.show()
